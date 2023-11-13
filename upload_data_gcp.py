@@ -8,7 +8,7 @@ storage_client = storage.Client("mp-capstone-1")
 bucket = storage_client.bucket("equity_market_raw_data_mp")
 
 
-# This works for me. Copy all content from a local directory to a specific bucket-name/full-path (recursive) in google cloud storage:
+# Copy all content from a local directory to a specific bucket-name/full-path (recursive) in google cloud storage:
 def upload_local_directory_to_gcs(local_path, bucket, gcs_path):
     assert os.path.isdir(local_path)
     for local_file in glob.glob(local_path + '/**'):
