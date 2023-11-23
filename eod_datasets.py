@@ -17,7 +17,10 @@ spark = SparkSession.builder\
                     .config('spark.executor.userClassPathFirst','true')\
                     .config('spark.hadoop.fs.gs.impl', 'com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem')\
                     .config('spark.hadoop.fs.gs.auth.service.account.enable', 'true')\
+                    .config("spark.hadoop.google.cloud.auth.service.account.email", "382306615898-compute@developer.gserviceaccount.com")\
+                    .config("spark.hadoop.google.cloud.service.account.json.keyfile", "/Users/meetapandit/DE_Bootcamp/Capstone_1/AlphaAdvantage_stockdata/my-credentials.json")\
                     .getOrCreate()
+
 # read parquet files for trade data from gcs
 trade_csv = spark.read.parquet("gs://equity_market_raw_data_mp/accepted_csv/partition=T/part-00000-410d3092-dffb-47b2-8515-e151d13d3d27.c000.snappy.parquet")
 trade_json = spark.read.parquet("gs://equity_market_raw_data_mp/accepted_json/partition=T/part-00000-24029700-55e0-422f-811e-76b8d8ef2bdc.c000.snappy.parquet")
@@ -48,6 +51,10 @@ def applyLatest(df):
 df_trade_corrected = applyLatest(df_trade)
 df_quote_corrected = applyLatest(df_quote)
 
+# add new column for date same as trade_dt
+df_trade_corrected = df_trade_corrected.withColumn("date", df_trade_corrected["trade_dt"])
+df_quote_corrected = df_quote_corrected.withColumn("date", df_quote_corrected["trade_dt"])
+
 # write transformed datasets back to cloud storage
-df_trade_corrected.write.parquet("gs://equity_market_raw_data_mp/eod/trade_data")
-df_quote_corrected.write.parquet("gs://equity_market_raw_data_mp/eod/quote_data")
+df_trade_corrected.write.partitionBy("trade_dt").mode("overwrite").parquet("gs://equity_market_raw_data_mp/trade")
+df_quote_corrected.write.parquet("gs://equity_market_raw_data_mp/quote")
