@@ -6,11 +6,11 @@ It also needs to produce analytical results that support business analysis.
 ### Overview:
 - Spring Capital (hypothetical enterprise) collects data on trades and quotes from multiple exchanges every day. 
 - Their data team creates data platforms and pipelines that provide the firm with insights through merging data points and y calculating key indicators. 
-- Spring Capital’s business analysts want to better understand their raw quote data by referencing specific trade indicators which occur whenever their quote data is generated, including:
+- Spring Capital’s business analysts want to better understand their raw quote data by referencing specific trade indicators that occur whenever their quote data is generated, including:
   - Latest trade price
   - Prior day closing price
   - 30-minute moving average trade price (Average price over the past 30 minutes,
-  constantly updated. This is a common indicator which smooths the price trend and cuts down noise.)
+  constantly updated. This is a common indicator that smooths the price trend and cuts down noise.)
 
 As a data engineer, you are asked to build a data pipeline that produces a dataset including the above indicators for the business analysts.
 
@@ -49,7 +49,7 @@ Step 2: EOD Batch load
 - Job should be scheduled to run at 5pm every day.
 
 Step 3: Analytical ETL Load
-- This steps addes 3 new columns for the business analysts to calculate trends in stock price changes
+- This step adds 3 new columns for the business analysts to calculate trends in stock price changes
 - The following 3 columns are added:
   - The latest trade price before the quote.
   - The latest 30 min moving average trade price before the quote.
@@ -59,7 +59,8 @@ Step 3: Analytical ETL Load
 
 
 Step 4: Pipeline Orchestration
-- The pipeline is deployed to Google Cloud Platform VM instance for scheduling in Airflow
+- The pipeline is deployed to the Google Cloud Platform VM instance for scheduling in Airflow
 
-<img width="1083" alt="Screenshot 2023-11-25 at 4 37 21 PM" src="https://github.com/meetapandit/equity_market_analysis/assets/15186489/3d3895e7-533f-4acd-97b1-3febfc27dde9">
+<img width="1083" alt="Screenshot 2023-11-25 at 4 37 21 PM" src="https://github.com/meetapandit/equity_market_analysis/assets/15186489/4615a3f0-8349-46b1-a0ca-fb304ed76218">
+
 
